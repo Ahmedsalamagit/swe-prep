@@ -250,47 +250,118 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
   :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  /* ============ SUBJECTS ============ */
+  .subjects{display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px;}
+  .subj{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+        box-shadow:var(--shadow); padding:18px 19px 16px; text-align:left; width:100%;
+        display:flex; flex-direction:column; gap:10px;
+        transition:box-shadow .18s, transform .18s, border-color .18s;}
+  .subj:hover{box-shadow:var(--shadow-lift); transform:translateY(-1px); border-color:var(--line-strong);}
+  .subj-top{display:flex; align-items:center; gap:12px;}
+  .subj-ico{width:38px; height:38px; border-radius:10px; display:grid; place-content:center; flex:0 0 auto;
+            background:var(--accent-wash); color:var(--accent-ink); font-family:var(--mono); font-size:15px; font-weight:600;}
+  .subj.done .subj-ico{background:var(--good-wash); color:var(--good);}
+  .subj-title{font-size:17px; font-weight:600; letter-spacing:-.012em; margin:0;}
+  .subj-meta{font-family:var(--mono); font-size:11.5px; color:var(--faint); font-variant-numeric:tabular-nums;}
+  .subj-sub{font-size:14px; color:var(--muted); margin:0; line-height:1.5;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 0;}
+  .chip{font-size:12px; padding:3px 9px; border-radius:100px; background:var(--surface-2); color:var(--ink-2);
+        border:1px solid transparent; white-space:nowrap;}
+  .chip.done{background:var(--good-wash); color:var(--good);}
+  .chip.started{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-wash);}
+  .subj-bar{height:5px; background:var(--surface-2); border-radius:100px; overflow:hidden; margin-top:auto;}
+  .subj-bar i{display:block; height:100%; width:0; background:var(--accent); border-radius:100px; transition:width .4s;}
+  .subj.done .subj-bar i{background:var(--good);}
+
+  /* subject page */
+  .subj-head{padding-block:26px 6px;}
+  .crumb-link{background:none; border:none; padding:6px 0; font-size:13.5px; color:var(--muted);}
+  .crumb-link:hover{color:var(--accent);}
+  .subj-head h1{font-size:clamp(28px,5vw,42px); margin:10px 0 10px; max-width:none;}
+  .subj-nav{display:flex; gap:6px; flex-wrap:wrap; margin:18px 0 0;}
+  .subj-nav button{font-size:13px; padding:6px 12px; border-radius:100px; border:1px solid var(--line-strong);
+                   background:var(--surface); color:var(--ink-2);}
+  .subj-nav button.on{background:var(--accent); border-color:var(--accent); color:var(--on-accent);}
+  .subj-nav button:hover:not(.on){background:var(--accent-wash);}
+  .tl{list-style:none; margin:4px 0 12px; padding:0; display:flex; flex-wrap:wrap; gap:6px;}
+  .tl button{font-size:12.5px; padding:4px 10px; border-radius:var(--radius-sm); border:1px solid var(--line);
+             background:var(--ground); color:var(--ink-2); text-align:left;}
+  .tl button:hover{border-color:var(--accent); color:var(--accent);}
+  .tl li.done button{color:var(--good); border-color:color-mix(in srgb, var(--good) 35%, transparent);}
+  .tl li.done button::before{content:"✓ "; font-weight:600;}
+  .ch-card{cursor:default;}
+  .ch-card .ch-title{cursor:pointer;}
+  .ch-card .ch-title:hover{color:var(--accent);}
+
+  /* language tabs */
+  .ltabs{max-width:68ch; margin:16px 0;}
+  .ltabs-bar{display:flex; gap:4px; flex-wrap:wrap; margin-bottom:-1px; position:relative; z-index:1;}
+  .ltabs-bar button{font-family:var(--mono); font-size:12px; padding:6px 12px; border:1px solid var(--line);
+                    border-bottom:none; border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+                    background:var(--surface-2); color:var(--muted);}
+  .ltabs-bar button.on{background:var(--surface); color:var(--accent); font-weight:600;}
+  .ltabs pre{margin:0; border-top-left-radius:0;}
+  .ltabs pre[hidden]{display:none;}
 </style>
 
-<!-- ============ ROADMAP ============ -->
+<!-- ============ HOME + SUBJECT ============ -->
 <div id="roadmap">
   <div class="wrap">
-    <header class="hero">
-      <p class="eyebrow">Interview course · 10 chapters · 43 lessons</p>
-      <h1>The Interview Rebuild</h1>
-      <p class="dek">Coding and system design fundamentals rebuilt from scratch, for a Microsoft SWE II going after SWE II and Senior roles. Work through a chapter at a time. Your place is saved.</p>
-      <div class="facts">
-        <span class="fact">Language <b>C#</b></span>
-        <span class="fact">Runs over <b>4 weeks</b></span>
-        <span class="fact">Problems <b>~62</b></span>
-        <span class="fact">Designs <b>6 worked</b></span>
-      </div>
-
-      <div class="overall">
-        <div class="overall-top">
-          <span class="overall-n" id="ov-n">0</span>
-          <span class="overall-of" id="ov-of">of 43 lessons complete</span>
-          <span class="overall-note" id="ov-note">Start with Chapter 1 — it takes twenty minutes.</span>
+    <div id="home">
+      <header class="hero">
+        <p class="eyebrow" id="eyebrow">Interview prep · by subject</p>
+        <h1>The Interview Rebuild</h1>
+        <p class="dek">Coding, system design and languages rebuilt from scratch, for a Microsoft SWE II going after SWE II and Senior roles. Pick a subject, or follow the 28-day plan. Your place is saved.</p>
+        <div class="facts">
+          <span class="fact">Primary language <b>C#</b></span>
+          <span class="fact">Also <b>Python · Java · JS · SQL</b></span>
+          <span class="fact">Plan <b>4 weeks</b></span>
+          <span class="fact" id="fact-n">Lessons <b>—</b></span>
         </div>
-        <div class="track"><div class="fill" id="ov-fill"></div></div>
-        <div class="resume">
-          <button class="btn" id="resume-btn">Start Chapter 1</button>
-          <span class="resume-label" id="resume-label"></span>
+        <div class="overall">
+          <div class="overall-top">
+            <span class="overall-n" id="ov-n">0</span>
+            <span class="overall-of" id="ov-of">lessons complete</span>
+            <span class="overall-note" id="ov-note"></span>
+          </div>
+          <div class="track"><div class="fill" id="ov-fill"></div></div>
+          <div class="resume">
+            <button class="btn" id="resume-btn">Start</button>
+            <span class="resume-label" id="resume-label"></span>
+          </div>
         </div>
+      </header>
+
+      <div class="path-head">
+        <h2>Subjects</h2>
+        <span id="path-meta"></span>
       </div>
+      <div class="subjects" id="subjects"></div>
 
-    </header>
-
-    <div class="path-head">
-      <h2>The roadmap</h2>
-      <span id="path-meta"></span>
+      <div class="how">
+        <h3>How to use this</h3>
+        <p><b>Go by subject when you know what you need</b> — System Design → Scaling, Basics → Complexity, Languages → Side by Side. <b>Go by the 28-day plan</b> in Start here when you want the order decided for you.</p>
+        <p>Read a topic, then do its drill list the same day. Every lesson has a <b>Mark complete</b> button; progress is saved in this browser.</p>
+      </div>
     </div>
-    <div class="path" id="path"></div>
 
-    <div class="how">
-      <h3>How to use this</h3>
-      <p><b>Read a chapter, then do its drills the same day.</b> Chapters 2 through 5 each end with a problem set — the reading is worth very little without it. Chapter 10 lays the whole thing onto a 28-day calendar, so if you want the schedule first, jump there and come back.</p>
-      <p>Every lesson has a <b>Mark complete</b> button at the bottom. That is what drives the progress shown above, and it is stored against this page, so you can close it and come back on any device.</p>
+    <div id="subject" hidden>
+      <div class="subj-head">
+        <button class="crumb-link" data-home>← All subjects</button>
+        <h1 id="s-title"></h1>
+        <p class="dek" id="s-sub"></p>
+        <div class="overall" style="margin-top:20px">
+          <div class="overall-top">
+            <span class="overall-n" id="s-n">0</span>
+            <span class="overall-of" id="s-of"></span>
+          </div>
+          <div class="track"><div class="fill" id="s-fill"></div></div>
+          <div class="resume"><button class="btn" id="s-resume">Start</button><span class="resume-label" id="s-label"></span></div>
+        </div>
+        <div class="subj-nav" id="s-nav"></div>
+      </div>
+      <div class="path-head"><h2>Topics</h2><span id="s-meta"></span></div>
+      <div class="path" id="s-path"></div>
     </div>
   </div>
 </div>
@@ -299,7 +370,7 @@
 <div id="lesson">
   <div class="topbar">
     <div class="topbar-in">
-      <button class="back" id="back-btn">← Roadmap</button>
+      <button class="back" id="back-btn">← Subject</button>
       <span class="crumb" id="crumb"></span>
       <span class="topbar-prog">
         <span id="tb-label"></span>
@@ -310,27 +381,51 @@
   <div class="lesson-grid">
     <aside class="rail collapsed" id="rail">
       <button class="sheet-toggle" id="sheet-toggle" aria-expanded="false">
-        <span id="sheet-label">Chapter contents</span><span class="chev">▾</span>
+        <span id="sheet-label">Topic contents</span><span class="chev">▾</span>
       </button>
-      <p class="rail-h">Chapter</p>
+      <p class="rail-h" id="rail-h">Topic</p>
       <p class="rail-ch" id="rail-ch"></p>
       <ol id="rail-list"></ol>
-      <button class="rail-back" id="rail-back">← All chapters</button>
+      <button class="rail-back" id="rail-back">← All topics</button>
     </aside>
     <article id="article"></article>
   </div>
 </div>
 
 <script src="content.js"></script>
+<script src="content-basics.js"></script>
+<script src="content-design.js"></script>
+<script src="content-lang.js"></script>
+<script src="content-rounds.js"></script>
+<script src="subjects.js"></script>
 <script>
 (function(){
   "use strict";
 
   var COURSE = window.COURSE || [];
+  var topicById = {};
+  COURSE.forEach(function(t){ topicById[String(t.id)] = t; });
+
+  /* subjects → topics → lessons, in display order */
+  var SUBJECTS = (window.SUBJECTS || []).map(function(s){
+    return { id:s.id, title:s.title, sub:s.sub, icon:s.icon,
+             topics: s.topics.map(function(id){ return topicById[String(id)]; }).filter(Boolean) };
+  });
+  /* any topic not placed in a subject still appears, under "More" */
+  var placed = {};
+  SUBJECTS.forEach(function(s){ s.topics.forEach(function(t){ placed[String(t.id)] = true; }); });
+  var orphans = COURSE.filter(function(t){ return !placed[String(t.id)]; });
+  if (orphans.length) SUBJECTS.push({ id:"more", title:"More", sub:"Other topics.", icon:"+", topics:orphans });
+
+  var subjById = {};
   var FLAT = [];
-  COURSE.forEach(function(ch){
-    ch.lessons.forEach(function(l, i){
-      FLAT.push({ id:l.id, title:l.title, body:l.body, ch:ch, idx:i });
+  SUBJECTS.forEach(function(s){
+    subjById[s.id] = s;
+    s.topics.forEach(function(t, ti){
+      t.subject = s; t.tIdx = ti;
+      t.lessons.forEach(function(l, i){
+        FLAT.push({ id:l.id, title:l.title, body:l.body, ch:t, subj:s, idx:i });
+      });
     });
   });
   var TOTAL = FLAT.length;
@@ -339,17 +434,13 @@
 
   var done = Object.create(null);
   var last = null;
-  var dbRef = null, wt = null, booted = false;
+  var dbRef = null, wt = null;
 
   /* ---------- persistence ---------- */
   function readLocal(){
     try{
       var raw = localStorage.getItem("course-v1");
-      if (raw){
-        var o = JSON.parse(raw) || {};
-        last = o.last || null;
-        return o.done || {};
-      }
+      if (raw){ var o = JSON.parse(raw) || {}; last = o.last || null; return o.done || {}; }
     }catch(e){}
     return {};
   }
@@ -367,82 +458,162 @@
   }
 
   /* ---------- helpers ---------- */
-  function chDone(ch){ return ch.lessons.filter(function(l){ return done[l.id]; }).length; }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
+  function tDone(t){ return t.lessons.filter(function(l){ return done[l.id]; }).length; }
+  function sLessons(s){ var n=0; s.topics.forEach(function(t){ n += t.lessons.length; }); return n; }
+  function sDone(s){ var n=0; s.topics.forEach(function(t){ n += tDone(t); }); return n; }
   function totalDone(){ var n=0; for (var k in done) if (done[k] && byId[k]) n++; return n; }
-  function firstIncomplete(){
-    for (var i=0;i<FLAT.length;i++) if (!done[FLAT[i].id]) return FLAT[i];
+  function firstIncomplete(list){
+    for (var i=0;i<list.length;i++) if (!done[list[i].id]) return list[i];
     return null;
   }
-  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
-
-  /* ---------- roadmap ---------- */
-  function renderPath(){
-    var html = "";
-    COURSE.forEach(function(ch){
-      var d = chDone(ch), n = ch.lessons.length;
-      var cls = d === n ? "done" : (d > 0 ? "started" : "");
-      var pct = Math.round(d/n*100);
-      html += '<div class="ch ' + cls + '">';
-      html += '<div class="ch-spine"><div class="ch-dot"><span>' + ch.id + '</span></div><div class="ch-line"></div></div>';
-      html += '<button class="ch-card" data-ch="' + ch.id + '">';
-      html += '<span class="ch-title">' + esc(ch.title) + '</span>';
-      html += '<p class="ch-sub">' + ch.sub + '</p>';
-      html += '<div class="ch-foot">';
-      html += '<span class="ch-meta">' + d + '/' + n + ' lessons · ' + ch.mins + ' min</span>';
-      html += '<span class="ch-bar"><i style="width:' + pct + '%"></i></span>';
-      html += '<span class="ch-go">' + (d === 0 ? "Start →" : (d === n ? "Review →" : "Continue →")) + '</span>';
-      html += '</div></button></div>';
-    });
-    document.getElementById("path").innerHTML = html;
-    document.getElementById("path-meta").textContent = COURSE.length + " chapters · work top to bottom";
+  function stateCls(d, n){ return d === n && n > 0 ? "done" : (d > 0 ? "started" : ""); }
+  function show(view){
+    document.getElementById("home").hidden = view !== "home";
+    document.getElementById("subject").hidden = view !== "subject";
+    document.body.classList.toggle("in-lesson", view === "lesson");
   }
 
-  function renderOverall(){
-    var d = totalDone();
-    var pct = Math.round(d/TOTAL*100);
+  /* ---------- home ---------- */
+  function renderHome(){
+    var html = "";
+    SUBJECTS.forEach(function(s){
+      var d = sDone(s), n = sLessons(s);
+      html += '<button class="subj ' + stateCls(d, n) + '" data-subj="' + s.id + '">';
+      html += '<span class="subj-top"><span class="subj-ico">' + esc(s.icon || "•") + '</span>';
+      html += '<span><span class="subj-title">' + esc(s.title) + '</span><br>';
+      html += '<span class="subj-meta">' + s.topics.length + ' topic' + (s.topics.length === 1 ? "" : "s") + ' · ' + d + '/' + n + ' lessons</span></span></span>';
+      html += '<p class="subj-sub">' + esc(s.sub) + '</p>';
+      html += '<span class="chips">';
+      s.topics.forEach(function(t){
+        html += '<span class="chip ' + stateCls(tDone(t), t.lessons.length) + '">' + esc(t.short || t.title) + '</span>';
+      });
+      html += '</span>';
+      html += '<span class="subj-bar"><i style="width:' + (n ? Math.round(d/n*100) : 0) + '%"></i></span>';
+      html += '</button>';
+    });
+    document.getElementById("subjects").innerHTML = html;
+    document.getElementById("path-meta").textContent = SUBJECTS.length + " subjects · " + COURSE.length + " topics";
+    document.getElementById("fact-n").innerHTML = "Lessons <b>" + TOTAL + "</b>";
+
+    var d = totalDone(), pct = Math.round(d/TOTAL*100);
     document.getElementById("ov-n").textContent = d;
     document.getElementById("ov-of").textContent = "of " + TOTAL + " lessons complete";
     document.getElementById("ov-fill").style.width = pct + "%";
-    var note = document.getElementById("ov-note");
-    if (d === 0) note.textContent = "Start with Chapter 1 — it takes twenty minutes.";
-    else if (d === TOTAL) note.textContent = "Course complete. Go do the drills again.";
-    else note.textContent = pct + "% through";
+    document.getElementById("ov-note").textContent =
+      d === 0 ? "Start with Start here — it takes twenty minutes." : (d === TOTAL ? "Everything complete. Go do the drills again." : pct + "% through");
 
-    var nxt = firstIncomplete();
-    var btn = document.getElementById("resume-btn");
-    var lbl = document.getElementById("resume-label");
-    var target = (last && byId[last] && !done[last]) ? byId[last] : nxt;
+    var target = (last && byId[last] && !done[last]) ? byId[last] : firstIncomplete(FLAT);
+    var btn = document.getElementById("resume-btn"), lbl = document.getElementById("resume-label");
     if (!target){
-      btn.textContent = "Review from the start";
-      btn.onclick = function(){ go(FLAT[0].id); };
+      btn.textContent = "Review from the start"; btn.onclick = function(){ go(FLAT[0].id); };
       lbl.textContent = "Every lesson is marked complete.";
     } else {
-      btn.textContent = d === 0 ? "Start Chapter 1" : "Continue";
+      btn.textContent = d === 0 ? "Start here" : "Continue";
       btn.onclick = function(){ go(target.id); };
-      lbl.textContent = d === 0 ? "" : "Chapter " + target.ch.id + " · " + target.title;
+      lbl.textContent = d === 0 ? "" : target.subj.title + " · " + target.ch.title + " · " + target.title;
     }
+  }
+
+  /* ---------- subject ---------- */
+  function renderSubject(sid){
+    var s = subjById[sid];
+    if (!s){ location.hash = "#/"; return; }
+    document.getElementById("s-title").textContent = s.title;
+    document.getElementById("s-sub").textContent = s.sub;
+
+    var d = sDone(s), n = sLessons(s);
+    document.getElementById("s-n").textContent = d;
+    document.getElementById("s-of").textContent = "of " + n + " lessons complete";
+    document.getElementById("s-fill").style.width = (n ? Math.round(d/n*100) : 0) + "%";
+    var sl = []; s.topics.forEach(function(t){ t.lessons.forEach(function(l){ sl.push(byId[l.id]); }); });
+    var tgt = firstIncomplete(sl);
+    var rb = document.getElementById("s-resume");
+    rb.textContent = !tgt ? "Review" : (d === 0 ? "Start " + s.title : "Continue");
+    rb.onclick = function(){ go((tgt || sl[0]).id); };
+    document.getElementById("s-label").textContent = tgt && d > 0 ? tgt.ch.title + " · " + tgt.title : "";
+
+    var nav = "";
+    SUBJECTS.forEach(function(x){
+      nav += '<button data-subj="' + x.id + '"' + (x.id === sid ? ' class="on"' : "") + '>' + esc(x.title) + '</button>';
+    });
+    document.getElementById("s-nav").innerHTML = nav;
+
+    var html = "";
+    s.topics.forEach(function(t, i){
+      var td = tDone(t), tn = t.lessons.length, pct = Math.round(td/tn*100);
+      html += '<div class="ch ' + stateCls(td, tn) + '">';
+      html += '<div class="ch-spine"><div class="ch-dot"><span>' + (i + 1) + '</span></div><div class="ch-line"></div></div>';
+      html += '<div class="ch-card">';
+      html += '<span class="ch-title" data-topic="' + esc(String(t.id)) + '">' + esc(t.title) + '</span>';
+      html += '<p class="ch-sub">' + t.sub + '</p>';
+      html += '<ul class="tl">';
+      t.lessons.forEach(function(l){
+        html += '<li class="' + (done[l.id] ? "done" : "") + '"><button data-goto="' + l.id + '">' + esc(l.title) + '</button></li>';
+      });
+      html += '</ul>';
+      html += '<div class="ch-foot">';
+      html += '<span class="ch-meta">' + td + '/' + tn + ' lessons · ' + t.mins + ' min</span>';
+      html += '<span class="ch-bar"><i style="width:' + pct + '%"></i></span>';
+      html += '<button class="ch-go" style="background:none;border:none;padding:0" data-topic="' + esc(String(t.id)) + '">' +
+              (td === 0 ? "Start →" : (td === tn ? "Review →" : "Continue →")) + '</button>';
+      html += '</div></div></div>';
+    });
+    document.getElementById("s-path").innerHTML = html;
+    document.getElementById("s-meta").textContent = s.topics.length + " topics · any order";
+  }
+
+  /* ---------- language tabs ---------- */
+  function prefLang(){ try{ return localStorage.getItem("pref-lang") || "C#"; }catch(e){ return "C#"; } }
+  function setPrefLang(v){ try{ localStorage.setItem("pref-lang", v); }catch(e){} }
+  function enhanceTabs(root){
+    var want = prefLang();
+    root.querySelectorAll(".ltabs").forEach(function(box){
+      var panes = Array.prototype.slice.call(box.querySelectorAll(":scope > pre[data-lang]"));
+      if (!panes.length) return;
+      var bar = document.createElement("div"); bar.className = "ltabs-bar"; bar.setAttribute("role","tablist");
+      var pick = panes.some(function(p){ return p.dataset.lang === want; }) ? want : panes[0].dataset.lang;
+      panes.forEach(function(p){
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = p.dataset.lang; b.dataset.lt = p.dataset.lang; b.setAttribute("role","tab");
+        bar.appendChild(b);
+      });
+      box.insertBefore(bar, panes[0]);
+      selectTab(box, pick);
+    });
+  }
+  function selectTab(box, lang){
+    box.querySelectorAll(":scope > pre[data-lang]").forEach(function(p){ p.hidden = p.dataset.lang !== lang; });
+    box.querySelectorAll(".ltabs-bar button").forEach(function(b){
+      var on = b.dataset.lt === lang; b.classList.toggle("on", on); b.setAttribute("aria-selected", on ? "true" : "false");
+    });
   }
 
   /* ---------- lesson ---------- */
   function renderLesson(id){
     var L = byId[id];
-    if (!L) { showRoadmap(); return; }
+    if (!L){ location.hash = "#/"; return; }
     last = id; save();
+    show("lesson");
 
-    document.body.classList.add("in-lesson");
-    document.getElementById("crumb").innerHTML =
-      "Ch " + L.ch.id + " · <b>" + esc(L.ch.title) + "</b>";
+    var T = L.ch, S = L.subj;
+    document.getElementById("back-btn").textContent = "← " + S.title;
+    document.getElementById("back-btn").onclick = function(){ location.hash = "#/s/" + S.id; };
+    document.getElementById("rail-back").textContent = "← All " + S.title + " topics";
+    document.getElementById("rail-back").onclick = function(){ location.hash = "#/s/" + S.id; };
+    document.getElementById("crumb").innerHTML = esc(S.title) + " · <b>" + esc(T.title) + "</b>";
 
     var d = totalDone(), pct = Math.round(d/TOTAL*100);
     document.getElementById("tb-label").textContent = d + "/" + TOTAL;
     document.getElementById("tb-fill").style.width = pct + "%";
 
-    document.getElementById("rail-ch").textContent = "Ch " + L.ch.id + " — " + L.ch.title;
+    document.getElementById("rail-h").textContent = S.title + " · Topic " + (T.tIdx + 1);
+    document.getElementById("rail-ch").textContent = T.title;
     document.getElementById("sheet-label").textContent =
-      "Lesson " + (L.idx + 1) + " of " + L.ch.lessons.length + " · " + L.ch.title;
+      "Lesson " + (L.idx + 1) + " of " + T.lessons.length + " · " + T.title;
 
     var rl = "";
-    L.ch.lessons.forEach(function(x){
+    T.lessons.forEach(function(x){
       var cls = (x.id === id ? "on " : "") + (done[x.id] ? "done" : "");
       rl += '<li class="' + cls + '"><button data-goto="' + x.id + '">' + esc(x.title) + '</button></li>';
     });
@@ -450,20 +621,29 @@
 
     var prev = FLAT[L.pos - 1], next = FLAT[L.pos + 1];
     var isDone = !!done[id];
-    var lastInCh = L.idx === L.ch.lessons.length - 1;
-    var chComplete = chDone(L.ch) === L.ch.lessons.length;
+    var lastInTopic = L.idx === T.lessons.length - 1;
+    var topicComplete = tDone(T) === T.lessons.length;
 
     var html = "";
-    html += '<p class="l-kicker">Chapter ' + L.ch.id + ' · Lesson ' + (L.idx + 1) + '</p>';
+    html += '<p class="l-kicker">' + esc(S.title) + ' · ' + esc(T.title) + ' · Lesson ' + (L.idx + 1) + '</p>';
     html += '<h2>' + esc(L.title) + '</h2>';
     html += L.body;
 
-    if (lastInCh && chComplete){
-      var nch = COURSE.filter(function(c){ return c.id === L.ch.id + 1; })[0];
-      html += '<div class="chdone"><h3>Chapter ' + L.ch.id + ' complete</h3>';
-      html += '<p>' + (nch ? "Next up: Chapter " + nch.id + " — " + esc(nch.title) + "." : "That is the whole course. Go back and do the drills again.") + '</p>';
-      html += '<button class="btn" data-goto="' + (nch ? nch.lessons[0].id : FLAT[0].id) + '">' +
-              (nch ? "Start Chapter " + nch.id : "Back to the start") + '</button></div>';
+    if (lastInTopic && topicComplete){
+      var nt = S.topics[T.tIdx + 1];
+      var ns = !nt ? SUBJECTS[SUBJECTS.indexOf(S) + 1] : null;
+      html += '<div class="chdone"><h3>' + esc(T.title) + ' complete</h3>';
+      if (nt){
+        html += '<p>Next in ' + esc(S.title) + ': ' + esc(nt.title) + '.</p>';
+        html += '<button class="btn" data-goto="' + nt.lessons[0].id + '">Start ' + esc(nt.title) + '</button>';
+      } else if (ns){
+        html += '<p>That finishes ' + esc(S.title) + '. Next subject: ' + esc(ns.title) + '.</p>';
+        html += '<button class="btn" data-subj="' + ns.id + '">Open ' + esc(ns.title) + '</button>';
+      } else {
+        html += '<p>That is everything. Go back and do the drills again.</p>';
+        html += '<button class="btn" data-home>All subjects</button>';
+      }
+      html += '</div>';
     }
 
     html += '<div class="lnav">';
@@ -471,31 +651,23 @@
     html += '<span class="spacer"></span>';
     html += '<span class="mark' + (isDone ? " is-done" : "") + '">';
     if (isDone){
-      html += '<span class="done-note">✓ Complete</span>';
-      html += '<button class="btn ghost" id="unmark">Undo</button>';
+      html += '<span class="done-note">✓ Complete</span><button class="btn ghost" id="unmark">Undo</button>';
     } else {
       html += '<button class="btn" id="markbtn">Mark complete' + (next ? " &amp; continue" : "") + '</button>';
     }
     html += '</span>';
     if (next) html += '<button class="btn ghost" data-goto="' + next.id + '">Next →</button>';
-    else html += '<button class="btn ghost" id="back2">Roadmap</button>';
+    else html += '<button class="btn ghost" data-home>All subjects</button>';
     html += '</div>';
 
     var art = document.getElementById("article");
     art.innerHTML = html;
+    enhanceTabs(art);
 
     var mb = document.getElementById("markbtn");
-    if (mb) mb.onclick = function(){
-      done[id] = true; save();
-      if (next) go(next.id); else renderLesson(id);
-      renderPath(); renderOverall();
-    };
+    if (mb) mb.onclick = function(){ done[id] = true; save(); if (next) go(next.id); else renderLesson(id); };
     var um = document.getElementById("unmark");
-    if (um) um.onclick = function(){
-      delete done[id]; save(); renderLesson(id); renderPath(); renderOverall();
-    };
-    var b2 = document.getElementById("back2");
-    if (b2) b2.onclick = showRoadmap;
+    if (um) um.onclick = function(){ delete done[id]; save(); renderLesson(id); };
 
     document.getElementById("rail").classList.add("collapsed");
     var st = document.getElementById("sheet-toggle");
@@ -510,35 +682,43 @@
     if (location.hash === "#/l/" + id) renderLesson(id);
     else location.hash = "#/l/" + id;
   }
-  function showRoadmap(){
-    if (location.hash === "" || location.hash === "#/") route();
-    else location.hash = "#/";
-  }
   function route(){
     var h = location.hash || "#/";
-    var m = h.match(/^#\/l\/(.+)$/);
-    if (m && byId[m[1]]) { renderLesson(m[1]); }
-    else {
-      document.body.classList.remove("in-lesson");
-      renderPath(); renderOverall(); window.scrollTo(0,0);
-    }
+    var m;
+    if ((m = h.match(/^#\/l\/(.+)$/)) && byId[decodeURIComponent(m[1])]) { renderLesson(decodeURIComponent(m[1])); return; }
+    if ((m = h.match(/^#\/s\/(.+)$/)) && subjById[m[1]]) { show("subject"); renderSubject(m[1]); window.scrollTo(0,0); return; }
+    show("home"); renderHome(); window.scrollTo(0,0);
+  }
+  function rerender(){
+    var h = location.hash || "#/", m;
+    if ((m = h.match(/^#\/l\/(.+)$/)) && byId[decodeURIComponent(m[1])]) renderLesson(decodeURIComponent(m[1]));
+    else if ((m = h.match(/^#\/s\/(.+)$/)) && subjById[m[1]]) renderSubject(m[1]);
+    else renderHome();
   }
 
   /* ---------- wiring ---------- */
   document.addEventListener("click", function(ev){
     if (!ev.target || typeof ev.target.closest !== "function") return;
-    var t = ev.target.closest("[data-goto]");
-    if (t && t.getAttribute("data-goto")) { go(t.getAttribute("data-goto")); return; }
-    var c = ev.target.closest("[data-ch]");
-    if (c){
-      var ch = COURSE.filter(function(x){ return String(x.id) === c.getAttribute("data-ch"); })[0];
-      if (!ch) return;
-      var t2 = ch.lessons.filter(function(l){ return !done[l.id]; })[0] || ch.lessons[0];
-      go(t2.id);
+    var lt = ev.target.closest(".ltabs-bar button");
+    if (lt){
+      var lang = lt.dataset.lt; setPrefLang(lang);
+      document.querySelectorAll(".ltabs").forEach(function(b){
+        if (b.querySelector(':scope > pre[data-lang="' + lang + '"]')) selectTab(b, lang);
+      });
+      return;
     }
+    var t = ev.target.closest("[data-goto]");
+    if (t){ if (t.getAttribute("data-goto")) go(t.getAttribute("data-goto")); return; }
+    var tp = ev.target.closest("[data-topic]");
+    if (tp){
+      var top = topicById[tp.getAttribute("data-topic")];
+      if (top){ var f = top.lessons.filter(function(l){ return !done[l.id]; })[0] || top.lessons[0]; go(f.id); }
+      return;
+    }
+    var sj = ev.target.closest("[data-subj]");
+    if (sj){ location.hash = "#/s/" + sj.getAttribute("data-subj"); return; }
+    if (ev.target.closest("[data-home]")){ location.hash = "#/"; }
   });
-  document.getElementById("back-btn").onclick = showRoadmap;
-  document.getElementById("rail-back").onclick = showRoadmap;
   document.getElementById("sheet-toggle").onclick = function(){
     var r = document.getElementById("rail");
     var open = r.classList.toggle("collapsed") === false;
@@ -550,7 +730,6 @@
   /* ---------- boot ---------- */
   done = readLocal();
   route();
-  booted = true;
 
   if (window.claude && typeof window.claude.use === "function"){
     window.claude.use("db").then(function(db){
@@ -567,11 +746,7 @@
         }
         if (typeof data.last === "string" && data.last) last = data.last;
         writeLocal();
-        renderPath(); renderOverall();
-        if (document.body.classList.contains("in-lesson")){
-          var m = (location.hash||"").match(/^#\/l\/(.+)$/);
-          if (m && byId[m[1]]) renderLesson(m[1]);
-        }
+        rerender();
       }, function(){});
     }).catch(function(){});
   }

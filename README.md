@@ -1,9 +1,14 @@
 # swe-prep
 
-A self-contained interview-prep course: coding patterns in C#, system design, and
-behavioural prep, laid out as 10 chapters / 43 lessons over a 28-day schedule.
+A self-contained interview-prep site organised **by subject**: Basics (complexity,
+data structures), Coding Patterns, System Design (foundations, scaling, worked
+designs, low-level design), Languages (C#, Python, Java, JavaScript, SQL, plus
+side-by-side comparisons), Interview Rounds, and Resources. 23 topics / 90 lessons,
+with a 28-day plan in "Start here".
 
-Built for a mid-level → senior software engineering job search.
+Built for a mid-level → senior software engineering job search. Content draws on
+tech-interview-handbook, system-design-primer, system-design-101,
+awesome-scalability, awesome-low-level-design and awesome-behavioral-interviews.
 
 ## Run it
 
@@ -18,34 +23,22 @@ python3 -m http.server 8000
 # -> http://localhost:8000
 ```
 
-## Contents
-
-| Chapter | Topic | Lessons |
-| --- | --- | ---: |
-| 1 | Orientation — strategy, what changed in 2026, the daily hour | 3 |
-| 2 | C# interview toolkit — collections, PriorityQueue, sharp edges | 5 |
-| 3 | Core patterns I — hashing, two pointers, sliding window, binary search | 5 |
-| 4 | Core patterns II — trees, graphs, heaps | 5 |
-| 5 | Core patterns III — intervals, stacks, backtracking, DP | 4 |
-| 6 | System design foundations — the 45-min frame, components, numbers | 5 |
-| 7 | Six worked designs — shortener, rate limiter, fan-out, feed, chat, scheduler | 6 |
-| 8 | The new rounds — debug-this-code, AI-assisted | 2 |
-| 9 | Behavioural and the senior bar | 4 |
-| 10 | The 28-day schedule | 4 |
-
-Chapters 2–5 each end with a drill list. The reading is worth very little
-without them.
-
 ## Layout
 
 ```
-index.html    shell: styles, routing, progress tracking
-content.js    all lesson content (window.COURSE)
+index.html          shell: styles, subject/topic/lesson routing, progress tracking
+subjects.js         window.SUBJECTS — which topics belong to which subject, in order
+content.js          original topics (orientation, C#, patterns I–III, design, rounds, schedule)
+content-basics.js   complexity, data structures, recursion/sorting/bits, patterns IV
+content-design.js   scaling, low-level design
+content-lang.js     side-by-side comparison, Python, Java, JavaScript, SQL
+content-rounds.js   coding-round playbook, resource library
 ```
 
-`content.js` is a single array of chapters, each with a `lessons` array of
-`{ id, title, body }` where `body` is an HTML string. To add or edit a lesson,
-edit that array — `index.html` needs no changes.
+Each content file pushes topics `{ id, title, sub, mins, lessons:[{ id, title, body }] }`
+onto `window.COURSE`. To add a topic, push it from any content file and list its id
+in `subjects.js`. Code blocks wrapped in `<div class="ltabs">` with one
+`<pre data-lang="…">` per language become tabs; the chosen language is remembered.
 
 ## Progress
 

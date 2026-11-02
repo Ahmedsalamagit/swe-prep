@@ -14,12 +14,12 @@ window.COURSE = [
 
 <ul class="clean">
   <li><b>Pattern coverage over problem count.</b> Twelve patterns cover the large majority of what gets asked. You will do about 62 problems, each chosen because it is the cleanest representative of its pattern — not because a list said so.</li>
-  <li><b>Spaced repetition over fresh problems.</b> Re-solving something you saw three days ago is worth more than a new problem. The schedule in Chapter 10 opens every weekend block with re-solves. Skip that and you will feel productive and retain nothing.</li>
+  <li><b>Spaced repetition over fresh problems.</b> Re-solving something you saw three days ago is worth more than a new problem. The 28-Day Schedule opens every weekend block with re-solves. Skip that and you will feel productive and retain nothing.</li>
   <li><b>Out loud, always.</b> You are not graded on the solution, you are graded on the narration. Silent solving trains the wrong muscle entirely. From day one, talk through every problem as if someone is listening — because in four weeks someone will be.</li>
 </ul>
 
 <h3>What this course deliberately cuts</h3>
-<p>Hard dynamic programming, advanced graph algorithms (max flow, Bellman-Ford, A*), segment trees, string algorithms like KMP, and bit-manipulation puzzles. Low frequency, high cost. If Chapter 10's week four leaves you room, they are the stretch. They are not in the critical path and chasing them is the most common way a four-week plan collapses.</p>
+<p>Hard dynamic programming, advanced graph algorithms (max flow, Bellman-Ford, A*), segment trees, string algorithms like KMP, and bit-manipulation puzzles. Low frequency, high cost. If the 28-Day Schedule's week four leaves you room, they are the stretch. They are not in the critical path and chasing them is the most common way a four-week plan collapses.</p>
 
 <div class="callout">
   <span class="tag">The honest risk</span>
@@ -31,7 +31,7 @@ window.COURSE = [
 <p class="l-lede">The loop you remember from four years ago is not the loop you are walking into. Three of the four changes work in your favour.</p>
 
 <h3>Debug-this-code rounds</h3>
-<p>You are handed working-ish broken code and asked to find and fix the defect while explaining your reasoning. These exist specifically because they are hard to fake with an AI assistant. They reward exactly what four years of production work taught you: read the test first, form a hypothesis, bisect, verify. This is likely your strongest round. Chapter 8 covers how to practise it on purpose rather than assuming it comes free.</p>
+<p>You are handed working-ish broken code and asked to find and fix the defect while explaining your reasoning. These exist specifically because they are hard to fake with an AI assistant. They reward exactly what four years of production work taught you: read the test first, form a hypothesis, bisect, verify. This is likely your strongest round. The New Rounds covers how to practise it on purpose rather than assuming it comes free.</p>
 
 <h3>AI-assisted rounds</h3>
 <p>Some companies now hand you an AI tool during the round deliberately. They are grading judgement, not generation — whether you verify output, catch a subtly wrong suggestion, and can articulate why you rejected one. Take-homes increasingly assume AI use and then require a live defence of every choice.</p>
@@ -75,7 +75,7 @@ window.COURSE = [
 ]},
 
 /* ================= CH 2 ================= */
-{ id:2, title:"Your C# Interview Toolkit", mins:50,
+{ id:2, title:"C# — Your Interview Toolkit", mins:50,
   sub:"C# is a fine interview language and you should not switch. But it has specific sharp edges that cost people real points, and features that make you look deliberate.",
   lessons:[
 
@@ -207,7 +207,7 @@ intervals.Sort((a, b) =&gt; a[0].CompareTo(b[0]));</code></pre>
 ` },
 
   { id:"2.5", title:"Quick check", body:`
-<p class="l-lede">Answer these out loud before reading on. If you miss more than two, reread the chapter before starting Chapter 3.</p>
+<p class="l-lede">Answer these out loud before reading on. If you miss more than two, reread the chapter before starting Patterns I.</p>
 
 <ol class="steps">
   <li><b>You need the three largest elements from a stream of ten million. What structure, what size, and why that direction?</b></li>
@@ -433,7 +433,7 @@ intervals.Sort((a, b) =&gt; a[0].CompareTo(b[0]));</code></pre>
 
 <div class="callout gold">
   <span class="tag">Consolidation — do not skip this</span>
-  <p>Before moving to Chapter 4, re-solve <strong>one problem from each of 3.1 through 3.4</strong>, cold, with no notes open. Pick the ones you found hardest. This will take about an hour and it is the single highest-value hour in the chapter.</p>
+  <p>Before moving to Patterns II, re-solve <strong>one problem from each of 3.1 through 3.4</strong>, cold, with no notes open. Pick the ones you found hardest. This will take about an hour and it is the single highest-value hour in the chapter.</p>
   <p>While you do it, notice which pattern you had to <em>think</em> to identify versus which one fired immediately. The ones that needed thinking go in your one-line log, and they are what you re-solve again next weekend.</p>
 </div>
 ` }
@@ -638,7 +638,7 @@ q.Enqueue(root);
 
 <div class="callout gold">
   <span class="tag">Consolidation</span>
-  <p>Before Chapter 5, re-solve one problem each from 4.1, 4.3 and 4.4 cold. Trees and graphs are the highest-frequency territory in the interview — of everything in this course, this is the material most worth over-learning.</p>
+  <p>Before Patterns III, re-solve one problem each from 4.1, 4.3 and 4.4 cold. Trees and graphs are the highest-frequency territory in the interview — of everything in this course, this is the material most worth over-learning.</p>
 </div>
 ` }
 ]},
@@ -847,7 +847,7 @@ dp[0] = 0;
 </div>
 
 <h3>Practise the clock, not just the content</h3>
-<p>When you do the designs in Chapter 7, set an actual timer and speak out loud. Reading a design and being able to produce one under a clock are different skills, and only the second one is tested.</p>
+<p>When you do the designs in Six Worked Designs, set an actual timer and speak out loud. Reading a design and being able to produce one under a clock are different skills, and only the second one is tested.</p>
 ` },
 
   { id:"6.2", title:"The component vocabulary", body:`
@@ -959,7 +959,7 @@ dp[0] = 0;
 <p>You can speak first-hand about the real trade-off: a partition key with high cardinality distributes load evenly but makes cross-partition queries expensive, while a key aligned to your query pattern keeps reads cheap and risks hot partitions. Add the throughput dimension — provisioned capacity is divided across partitions, so a hot partition starves while the account looks underused overall — and you are describing something you have debugged rather than read about.</p>
 
 <h3>Service Health is a notification system</h3>
-<p>Event ingestion, subscription filtering, fan-out, multi-region delivery, at-least-once semantics. That is the canonical "design a notification system" question, and you have shipped it. Prepare it deliberately as <strong>both</strong> a worked design example (Chapter 7, lesson 3) and a behavioural story (Chapter 9).</p>
+<p>Event ingestion, subscription filtering, fan-out, multi-region delivery, at-least-once semantics. That is the canonical "design a notification system" question, and you have shipped it. Prepare it deliberately as <strong>both</strong> a worked design example (Six Worked Designs, lesson 3) and a behavioural story (Behavioural).</p>
 
 <h3>Service Fabric for stateful systems</h3>
 <p>Stateful services with partitioned reliable collections, rolling upgrades with health checks, automatic failover. If a design goes toward "where does the state live and what happens when a node dies mid-operation", you have a concrete reference point most candidates lack.</p>
@@ -1158,7 +1158,7 @@ dp[0] = 0;
 <p>A thundering herd at round times — enormous numbers of jobs scheduled for exactly midnight or exactly the top of the hour, because humans pick round numbers. Add jitter on scheduling, or smear execution across the bucket. This is a genuinely common production problem and naming it marks you as someone who has operated a system rather than designed one on paper.</p>
 
 <div class="callout good">
-  <span class="tag">Chapter 7 wrap</span>
+  <span class="tag">Six Worked Designs wrap</span>
   <p>Six designs, and the pieces recur: partitioning, idempotency, leases, fan-out, hot keys, the outbox. That recurrence is the point — you are not memorising six systems, you are accumulating a small set of moves you can assemble against a question you have never seen.</p>
 </div>
 ` }
@@ -1185,7 +1185,7 @@ dp[0] = 0;
 
 <div class="callout gold">
   <span class="tag">How to practise it</span>
-  <p>Take three problems you have already solved. Introduce one subtle bug in each — the kind above, not a syntax error. Leave them for a week. Then debug them cold, out loud, timing yourself. This is scheduled for week three, Sunday, in Chapter 10.</p>
+  <p>Take three problems you have already solved. Introduce one subtle bug in each — the kind above, not a syntax error. Leave them for a week. Then debug them cold, out loud, timing yourself. This is scheduled for week three, Sunday, in the 28-Day Schedule.</p>
   <p>It feels artificial and it works, because the skill being trained is <em>reading unfamiliar code under time pressure</em> and code you wrote a week ago is genuinely unfamiliar.</p>
 </div>
 ` },
@@ -1311,7 +1311,7 @@ dp[0] = 0;
 <p>Anything answerable from the careers page. Anything about compensation before an offer conversation. And do not ask "what do you like about working here?" — it produces a rehearsed answer and tells you nothing.</p>
 
 <div class="callout good">
-  <span class="tag">Chapter 9 wrap</span>
+  <span class="tag">Behavioural wrap</span>
   <p>The technical chapters are the bulk of the work, but this is the chapter that decides your <em>level</em>. Two hours on the eight stories is worth more to your offer than another twenty LeetCode problems, and it is the part candidates most reliably skip.</p>
 </div>
 ` }
@@ -1328,12 +1328,12 @@ dp[0] = 0;
 <div class="tbl"><table>
 <thead><tr><th>Day</th><th class="nc">Time</th><th>Work</th></tr></thead>
 <tbody>
-<tr><td><b>Mon</b></td><td class="nc">1 hr</td><td>Chapter 1 end to end, then Chapter 2 lessons 1–3. Read, do not drill yet.</td></tr>
-<tr><td><b>Tue</b></td><td class="nc">1 hr</td><td>Finish Chapter 2 including the quick check. Then lesson 3.1 and its drill.</td></tr>
+<tr><td><b>Mon</b></td><td class="nc">1 hr</td><td>Orientation end to end, then the C# toolkit lessons 1–3. Read, do not drill yet.</td></tr>
+<tr><td><b>Tue</b></td><td class="nc">1 hr</td><td>Finish the C# toolkit including the quick check. Then lesson 3.1 and its drill.</td></tr>
 <tr><td><b>Wed</b></td><td class="nc">1 hr</td><td>Lesson 3.2 — two pointers. Full drill.</td></tr>
 <tr><td><b>Thu</b></td><td class="nc">1 hr</td><td>Lesson 3.3 — sliding window. Drill items 1–4; leave Minimum Window for Saturday.</td></tr>
 <tr><td><b>Fri</b></td><td class="nc">1 hr</td><td>Lesson 3.4 — binary search, including the answer-space variant.</td></tr>
-<tr><td><b>Sat</b></td><td class="nc">4 hrs</td><td><b>1:</b> re-solve Tue and Wed problems cold. <b>2:</b> Minimum Window Substring, properly. <b>3:</b> lesson 3.5 and its drill. <b>4:</b> Chapter 6 lessons 1 and 3 — write the 45-minute frame on paper from memory.</td></tr>
+<tr><td><b>Sat</b></td><td class="nc">4 hrs</td><td><b>1:</b> re-solve Tue and Wed problems cold. <b>2:</b> Minimum Window Substring, properly. <b>3:</b> lesson 3.5 and its drill. <b>4:</b> System Design Foundations lessons 1 and 3 — write the 45-minute frame on paper from memory.</td></tr>
 <tr><td><b>Sun</b></td><td class="nc">3 hrs</td><td><b>1:</b> lesson 5.2 — stacks and monotonic stack, drill items 1–3. <b>2:</b> linked lists — Reverse, Merge Two Sorted, Cycle. <b>3:</b> re-solve one problem entirely out loud, recorded. Watch it back.</td></tr>
 </tbody></table></div>
 
@@ -1354,8 +1354,8 @@ dp[0] = 0;
 <tr><td><b>Wed</b></td><td class="nc">1 hr</td><td>Lesson 4.3 — BFS. Drill items 1–4.</td></tr>
 <tr><td><b>Thu</b></td><td class="nc">1 hr</td><td>Lesson 4.4 — graphs and topological sort. Write Kahn's from memory before starting.</td></tr>
 <tr><td><b>Fri</b></td><td class="nc">1 hr</td><td>Lesson 4.5 — heaps. Drill items 1–4. Re-read 2.2 first.</td></tr>
-<tr><td><b>Sat</b></td><td class="nc">4 hrs</td><td><b>1:</b> re-solve three week-one problems cold. <b>2:</b> Chapter 6 lessons 2, 4 and 5. <b>3–4:</b> designs 7.1 and 7.2, timed at 45 min each, out loud, on paper. Then review against the frame — where did you overrun?</td></tr>
-<tr><td><b>Sun</b></td><td class="nc">3 hrs</td><td><b>1–2:</b> Word Ladder, Pacific Atlantic, Find Median from Stream — timed, 25 min each. <b>3:</b> Chapter 9 lessons 1 and 2; draft all eight stories as bullets. Do not polish.</td></tr>
+<tr><td><b>Sat</b></td><td class="nc">4 hrs</td><td><b>1:</b> re-solve three week-one problems cold. <b>2:</b> System Design Foundations lessons 2, 4 and 5. <b>3–4:</b> designs 7.1 and 7.2, timed at 45 min each, out loud, on paper. Then review against the frame — where did you overrun?</td></tr>
+<tr><td><b>Sun</b></td><td class="nc">3 hrs</td><td><b>1–2:</b> Word Ladder, Pacific Atlantic, Find Median from Stream — timed, 25 min each. <b>3:</b> Behavioural lessons 1 and 2; draft all eight stories as bullets. Do not polish.</td></tr>
 </tbody></table></div>
 
 <div class="callout">
@@ -1376,7 +1376,7 @@ dp[0] = 0;
 <tr><td><b>Thu</b></td><td class="nc">1 hr</td><td>Lesson 5.4 — DP. Drill items 1–3. Define the state out loud every time.</td></tr>
 <tr><td><b>Fri</b></td><td class="nc">1 hr</td><td>DP drill items 4–5. Stop at Longest Common Subsequence; do not chase Edit Distance.</td></tr>
 <tr><td><b>Sat</b></td><td class="nc">4 hrs</td><td><b>1:</b> re-solve week-two graph problems cold. <b>2–3:</b> designs 7.3 and 7.4 — 45 min each. Use Service Health explicitly in 7.3. <b>4:</b> go deep on the celebrity problem and hot partitions.</td></tr>
-<tr><td><b>Sun</b></td><td class="nc">3 hrs</td><td><b>1:</b> Chapter 8 lesson 1 — debug three problems you bugged a week ago. <b>2:</b> Chapter 8 lesson 2 — solve a new medium with an AI assistant, verifying out loud. <b>3:</b> read your one-line log; list your three weakest patterns.</td></tr>
+<tr><td><b>Sun</b></td><td class="nc">3 hrs</td><td><b>1:</b> The New Rounds lesson 1 — debug three problems you bugged a week ago. <b>2:</b> The New Rounds lesson 2 — solve a new medium with an AI assistant, verifying out loud. <b>3:</b> read your one-line log; list your three weakest patterns.</td></tr>
 </tbody></table></div>
 
 <div class="callout gold">
@@ -1394,7 +1394,7 @@ dp[0] = 0;
 <tr><td><b>Mon</b></td><td class="nc">1 hr</td><td><b>Mock coding round.</b> Two unseen mediums, 45 min total, narrated, recorded, no pausing, no notes open.</td></tr>
 <tr><td><b>Tue</b></td><td class="nc">1 hr</td><td>Watch the recording. Where did you go silent? Where did you code before stating the approach? Re-solve the weaker problem properly.</td></tr>
 <tr><td><b>Wed</b></td><td class="nc">1 hr</td><td><b>Mock system design</b> — design 7.5, chat, 45 min out loud against the clock. Force two deep dives without prompting.</td></tr>
-<tr><td><b>Thu</b></td><td class="nc">1 hr</td><td>Chapter 9 lessons 3 and 4. Take all eight stories to finished; tell each out loud under two minutes.</td></tr>
+<tr><td><b>Thu</b></td><td class="nc">1 hr</td><td>Behavioural lessons 3 and 4. Take all eight stories to finished; tell each out loud under two minutes.</td></tr>
 <tr><td><b>Fri</b></td><td class="nc">1 hr</td><td>Re-solve your three weakest patterns. Write your four questions for interviewers.</td></tr>
 <tr><td><b>Sat</b></td><td class="nc">4 hrs</td><td><b>Full loop simulation</b>, back to back with no long breaks: 45 min coding, 45 min design (7.6, the job scheduler), 45 min behavioural, then review.</td></tr>
 <tr><td><b>Sun</b></td><td class="nc">2 hrs</td><td>Read your one-line log end to end. Skim the pattern lessons and the numbers table. <b>Learn nothing new.</b> Rest.</td></tr>
