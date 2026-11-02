@@ -1,0 +1,581 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>The Interview Rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#F4F6F8; --surface:#FFFFFF; --surface-2:#EDF1F5; --surface-3:#E3E9EF;
+    --ink:#101820; --ink-2:#38434F; --muted:#65727F; --faint:#8C98A4;
+    --line:#D8DFE6; --line-strong:#BBC5CE;
+    --accent:#1B4D8F; --accent-ink:#12365F; --accent-wash:#E4EDF8; --on-accent:#FFFFFF;
+    --gold:#8A5D08; --gold-wash:#F7EDD6;
+    --good:#186A3B; --good-wash:#E2F0E7;
+    --radius:12px; --radius-sm:7px;
+    --shadow:0 1px 2px rgba(16,24,32,.06), 0 4px 14px rgba(16,24,32,.05);
+    --shadow-lift:0 2px 4px rgba(16,24,32,.07), 0 10px 28px rgba(16,24,32,.09);
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0D1319; --surface:#151D25; --surface-2:#1D2731; --surface-3:#25323D;
+      --ink:#E8EDF2; --ink-2:#C2CCD6; --muted:#93A0AD; --faint:#6E7C89;
+      --line:#2A3641; --line-strong:#3C4A57;
+      --accent:#7BA9E0; --accent-ink:#A8C8EE; --accent-wash:#182839; --on-accent:#0D1319;
+      --gold:#D9AB55; --gold-wash:#2B2415;
+      --good:#6FC28E; --good-wash:#16271D;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.28);
+      --shadow-lift:0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0D1319; --surface:#151D25; --surface-2:#1D2731; --surface-3:#25323D;
+    --ink:#E8EDF2; --ink-2:#C2CCD6; --muted:#93A0AD; --faint:#6E7C89;
+    --line:#2A3641; --line-strong:#3C4A57;
+    --accent:#7BA9E0; --accent-ink:#A8C8EE; --accent-wash:#182839; --on-accent:#0D1319;
+    --gold:#D9AB55; --gold-wash:#2B2415;
+    --good:#6FC28E; --good-wash:#16271D;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.28);
+    --shadow-lift:0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--sans);
+       font-size:15px; line-height:1.62; -webkit-font-smoothing:antialiased;}
+  button{font:inherit; color:inherit; cursor:pointer;}
+  a{color:var(--accent); text-underline-offset:2px;}
+  .wrap{max-width:1080px; margin:0 auto; padding-inline:16px;}
+
+  /* ============ ROADMAP ============ */
+  #roadmap{padding-block:0 80px;}
+  .hero{padding-block:38px 20px;}
+  .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase;
+           color:var(--accent); font-weight:600; margin:0 0 12px;}
+  h1{font-size:clamp(32px,6vw,52px); line-height:1.05; margin:0 0 14px; font-weight:600;
+     letter-spacing:-.024em; text-wrap:balance; max-width:16ch;}
+  .dek{font-size:17.5px; color:var(--muted); margin:0; max-width:60ch; line-height:1.55;}
+  .facts{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px;}
+  .fact{font-family:var(--mono); font-size:11.5px; padding:5px 10px; border-radius:100px;
+        border:1px solid var(--line-strong); color:var(--ink-2); background:var(--surface);}
+  .fact b{color:var(--accent); font-weight:600;}
+
+  .overall{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+           padding:18px 20px; box-shadow:var(--shadow); margin-top:26px;}
+  .overall-top{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
+  .overall-n{font-size:22px; font-weight:600; letter-spacing:-.02em; font-variant-numeric:tabular-nums;}
+  .overall-of{color:var(--muted); font-size:14px;}
+  .overall-note{margin-left:auto; font-size:13px; color:var(--faint);}
+  .track{height:8px; background:var(--surface-2); border-radius:100px; overflow:hidden;}
+  .fill{height:100%; width:0%; background:var(--accent); border-radius:100px; transition:width .4s ease;}
+  .resume{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  .btn{border:1px solid var(--accent); background:var(--accent); color:var(--on-accent); padding:9px 16px;
+       border-radius:100px; font-size:14px; font-weight:500; transition:filter .15s;}
+  .btn:hover{filter:brightness(1.1);}
+  .btn.ghost{background:transparent; color:var(--accent); border-color:var(--line-strong);}
+  .btn.ghost:hover{background:var(--accent-wash); filter:none;}
+  .btn:disabled{opacity:.4; cursor:default;}
+  .resume-label{font-size:13px; color:var(--muted);}
+
+  .how{margin-top:34px; background:var(--accent-wash); border-radius:var(--radius); padding:18px 22px;}
+  .how h3{margin:0 0 8px; font-size:15px; font-weight:600;}
+  .how p{margin:0; font-size:14px; color:var(--ink-2); max-width:70ch;}
+  .how p + p{margin-top:8px;}
+
+  .path-head{margin:44px 0 18px; display:flex; align-items:baseline; gap:10px;}
+  .path-head h2{font-size:20px; margin:0; font-weight:600; letter-spacing:-.015em;}
+  .path-head span{font-family:var(--mono); font-size:12px; color:var(--faint);}
+
+  .path{position:relative; padding-left:0;}
+  .ch{position:relative; display:grid; grid-template-columns:44px 1fr; gap:16px; padding-bottom:12px;}
+  .ch-spine{position:relative; display:flex; flex-direction:column; align-items:center;}
+  .ch-dot{width:38px; height:38px; border-radius:50%; display:grid; place-content:center;
+          font-family:var(--mono); font-size:14px; font-weight:600; flex:0 0 auto;
+          background:var(--surface); border:1.5px solid var(--line-strong); color:var(--muted);
+          transition:all .2s;}
+  .ch.started .ch-dot{border-color:var(--accent); color:var(--accent); background:var(--accent-wash);}
+  .ch.done .ch-dot{background:var(--good); border-color:var(--good); color:var(--on-accent);}
+  .ch.done .ch-dot::after{content:"✓"; font-size:17px;}
+  .ch.done .ch-dot span{display:none;}
+  .ch-line{flex:1; width:2px; background:var(--line); margin-top:4px; min-height:14px;}
+  .ch:last-child .ch-line{display:none;}
+
+  .ch-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+           padding:17px 19px; box-shadow:var(--shadow); text-align:left; width:100%;
+           transition:box-shadow .18s, transform .18s, border-color .18s; margin-bottom:12px;}
+  .ch-card:hover{box-shadow:var(--shadow-lift); transform:translateY(-1px); border-color:var(--line-strong);}
+  .ch-card:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .ch-title{font-size:17px; font-weight:600; letter-spacing:-.012em; margin:0 0 5px; display:block;}
+  .ch-sub{font-size:14px; color:var(--muted); margin:0 0 12px; line-height:1.5;}
+  .ch-foot{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .ch-meta{font-family:var(--mono); font-size:11.5px; color:var(--faint); font-variant-numeric:tabular-nums;}
+  .ch-bar{flex:1 1 90px; height:5px; background:var(--surface-2); border-radius:100px; overflow:hidden; min-width:70px;}
+  .ch-bar i{display:block; height:100%; width:0; background:var(--accent); border-radius:100px; transition:width .4s;}
+  .ch.done .ch-bar i{background:var(--good);}
+  .ch-go{font-family:var(--mono); font-size:12px; color:var(--accent); font-weight:500; margin-left:auto; white-space:nowrap;}
+
+  /* ============ LESSON VIEW ============ */
+  #lesson{display:none;}
+  body.in-lesson #roadmap{display:none;}
+  body.in-lesson #lesson{display:block;}
+
+  .topbar{position:sticky; top:env(safe-area-inset-top, 0px); z-index:50;
+          background:color-mix(in srgb, var(--ground) 94%, transparent);
+          backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+          border-bottom:1px solid var(--line);}
+  .topbar-in{max-width:1080px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:14px;}
+  .back{background:none; border:none; padding:6px 10px 6px 4px; font-size:13.5px; color:var(--muted);
+        display:inline-flex; align-items:center; gap:6px; border-radius:var(--radius-sm);
+        white-space:nowrap; flex:0 0 auto;}
+  .back:hover{color:var(--ink); background:var(--surface-2);}
+  .crumb{font-family:var(--mono); font-size:12px; color:var(--faint); overflow:hidden;
+         text-overflow:ellipsis; white-space:nowrap;}
+  .crumb b{color:var(--ink-2); font-weight:500;}
+  .topbar-prog{margin-left:auto; display:flex; align-items:center; gap:9px; flex:0 0 auto;}
+  .topbar-prog .track{width:74px; height:5px;}
+  .topbar-prog span{font-family:var(--mono); font-size:11.5px; color:var(--faint); font-variant-numeric:tabular-nums;}
+
+  .lesson-grid{max-width:1080px; margin:0 auto; padding:0 16px 90px;
+               display:grid; grid-template-columns:238px 1fr; gap:38px; align-items:start;}
+
+  .rail{position:sticky; top:calc(env(safe-area-inset-top, 0px) + 62px); padding-top:30px;}
+  .rail-h{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+          color:var(--faint); font-weight:600; margin:0 0 10px;}
+  .rail-ch{font-size:15.5px; font-weight:600; margin:0 0 14px; letter-spacing:-.01em; line-height:1.35;}
+  .rail ol{list-style:none; margin:0; padding:0; border-left:2px solid var(--line);}
+  .rail li{position:relative;}
+  .rail ol button{display:block; width:100%; text-align:left; background:none; border:none;
+               padding:8px 10px 8px 14px; font-size:13.5px; color:var(--muted); line-height:1.4;
+               border-left:2px solid transparent; margin-left:-2px; border-radius:0 var(--radius-sm) var(--radius-sm) 0;}
+  .rail ol button:hover{color:var(--ink); background:var(--surface-2);}
+  .rail li.on button{color:var(--accent); border-left-color:var(--accent); font-weight:500; background:var(--accent-wash);}
+  .rail li.done button{color:var(--faint);}
+  .rail li.done button::before{content:"✓ "; color:var(--good); font-weight:600;}
+  .rail-back{margin-top:16px; font-size:13px; background:none; border:none; color:var(--accent); padding:4px 0;}
+
+  .rail .sheet-toggle{display:none;}
+
+  article{padding-top:30px; min-width:0;}
+  .l-kicker{font-family:var(--mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase;
+            color:var(--accent); font-weight:600; margin:0 0 9px;}
+  article h2{font-size:clamp(23px,3.6vw,31px); line-height:1.15; margin:0 0 14px; font-weight:600;
+             letter-spacing:-.02em; text-wrap:balance; max-width:22ch;}
+  .l-lede{font-size:16.5px; color:var(--ink-2); max-width:64ch; line-height:1.6; margin:0 0 6px;}
+  article h3{font-size:16.5px; margin:30px 0 9px; font-weight:600; letter-spacing:-.008em;}
+  article h4{font-size:14px; margin:20px 0 7px; font-weight:600; color:var(--ink-2);}
+  article p{max-width:66ch;}
+  article > p:first-of-type{margin-top:0;}
+
+  .callout{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+           border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:15px 18px; margin:20px 0; max-width:68ch;}
+  .callout.gold{border-left-color:var(--gold); background:var(--gold-wash);}
+  .callout.good{border-left-color:var(--good); background:var(--good-wash);}
+  .callout p{margin:0; max-width:none;}
+  .callout p + p{margin-top:9px;}
+  .callout .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+                color:var(--accent); font-weight:600; display:block; margin-bottom:6px;}
+  .callout.gold .tag{color:var(--gold);} .callout.good .tag{color:var(--good);}
+
+  .drill{border:1px dashed var(--line-strong); border-radius:var(--radius-sm); padding:14px 17px;
+         margin:20px 0; background:var(--surface); max-width:68ch;}
+  .drill .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+              color:var(--gold); font-weight:600; display:block; margin-bottom:8px;}
+  .drill ol{margin:0; padding-left:19px; font-size:14px;}
+  .drill li{margin-bottom:4px;}
+  .drill li em{color:var(--muted); font-style:normal; font-size:13px;}
+
+  pre{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-sm);
+      padding:14px 16px; overflow-x:auto; margin:16px 0; font-size:12.5px; line-height:1.65; max-width:68ch;}
+  pre code{font-family:var(--mono); color:var(--ink-2);}
+  pre .c{color:var(--faint); font-style:italic;} pre .k{color:var(--accent); font-weight:500;} pre .s{color:var(--good);}
+  p code, li code, td code{font-family:var(--mono); font-size:12.5px; background:var(--surface-2);
+      padding:1px 5px; border-radius:4px; color:var(--accent-ink);}
+
+  .tbl{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:var(--radius-sm);
+       background:var(--surface); max-width:68ch;}
+  table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:440px;}
+  th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+     color:var(--muted); font-weight:600; background:var(--surface-2); white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  .nc{font-variant-numeric:tabular-nums; white-space:nowrap;}
+
+  ul.clean{list-style:none; padding:0; margin:16px 0; max-width:68ch;}
+  ul.clean li{padding:8px 0 8px 25px; border-bottom:1px solid var(--line); position:relative; font-size:14.5px;}
+  ul.clean li:last-child{border-bottom:none;}
+  ul.clean li::before{content:"→"; position:absolute; left:0; top:8px; color:var(--accent);
+                      font-family:var(--mono); font-size:13px;}
+  article ul:not(.clean){max-width:66ch; padding-left:20px;}
+  article ul:not(.clean) li{margin-bottom:5px;}
+  ol.steps{counter-reset:s; list-style:none; padding:0; margin:18px 0; max-width:68ch;}
+  ol.steps li{counter-increment:s; position:relative; padding:0 0 15px 40px; font-size:14.5px;}
+  ol.steps li::before{content:counter(s); position:absolute; left:0; top:1px; width:25px; height:25px;
+                      border-radius:50%; background:var(--accent-wash); color:var(--accent-ink);
+                      font-family:var(--mono); font-size:11.5px; font-weight:600; display:grid; place-content:center;}
+  ol.steps li b{display:block; margin-bottom:1px;}
+  ol.steps li .t{font-family:var(--mono); font-size:11px; color:var(--faint); float:right;}
+
+  /* footer nav */
+  .lnav{margin-top:44px; padding-top:22px; border-top:1px solid var(--line);
+        display:flex; align-items:center; gap:12px; flex-wrap:wrap; max-width:68ch;}
+  .lnav .spacer{flex:1;}
+  .mark{display:inline-flex; align-items:center; gap:8px;}
+  .mark.is-done .btn{background:var(--good); border-color:var(--good);}
+  .done-note{font-size:13px; color:var(--good); font-weight:500;}
+
+  .chdone{margin:26px 0 0; background:var(--good-wash); border:1px solid var(--good);
+          border-radius:var(--radius); padding:18px 20px; max-width:68ch;}
+  .chdone h3{margin:0 0 6px; font-size:16px; color:var(--good);}
+  .chdone p{margin:0 0 12px; font-size:14px; color:var(--ink-2);}
+
+  @media (max-width:860px){
+    .lesson-grid{grid-template-columns:1fr; gap:0;}
+    .rail{position:static; padding-top:0; margin-top:14px; background:var(--surface);
+          border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px;}
+    .rail.collapsed ol, .rail.collapsed .rail-back{display:none;}
+    .rail .sheet-toggle{display:flex; align-items:center; justify-content:space-between; width:100%;
+                  background:none; border:none; padding:0; font-size:14px; font-weight:600; text-align:left;}
+    .sheet-toggle .chev{font-family:var(--mono); color:var(--muted); font-size:12px; font-weight:400;}
+    .rail-h{display:none;}
+    .rail-ch{display:none;}
+    .rail ol{margin-top:12px;}
+    article{padding-top:22px;}
+  }
+  @media (max-width:560px){
+    .ch{grid-template-columns:34px 1fr; gap:11px;}
+    .ch-dot{width:30px; height:30px; font-size:12.5px;}
+    .ch-card{padding:14px 15px;}
+    .ch-go{display:none;}
+    .hero{padding-block:36px 24px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+
+<!-- ============ ROADMAP ============ -->
+<div id="roadmap">
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Interview course · 10 chapters · 43 lessons</p>
+      <h1>The Interview Rebuild</h1>
+      <p class="dek">Coding and system design fundamentals rebuilt from scratch, for a Microsoft SWE II going after SWE II and Senior roles. Work through a chapter at a time. Your place is saved.</p>
+      <div class="facts">
+        <span class="fact">Language <b>C#</b></span>
+        <span class="fact">Runs over <b>4 weeks</b></span>
+        <span class="fact">Problems <b>~62</b></span>
+        <span class="fact">Designs <b>6 worked</b></span>
+      </div>
+
+      <div class="overall">
+        <div class="overall-top">
+          <span class="overall-n" id="ov-n">0</span>
+          <span class="overall-of" id="ov-of">of 43 lessons complete</span>
+          <span class="overall-note" id="ov-note">Start with Chapter 1 — it takes twenty minutes.</span>
+        </div>
+        <div class="track"><div class="fill" id="ov-fill"></div></div>
+        <div class="resume">
+          <button class="btn" id="resume-btn">Start Chapter 1</button>
+          <span class="resume-label" id="resume-label"></span>
+        </div>
+      </div>
+
+    </header>
+
+    <div class="path-head">
+      <h2>The roadmap</h2>
+      <span id="path-meta"></span>
+    </div>
+    <div class="path" id="path"></div>
+
+    <div class="how">
+      <h3>How to use this</h3>
+      <p><b>Read a chapter, then do its drills the same day.</b> Chapters 2 through 5 each end with a problem set — the reading is worth very little without it. Chapter 10 lays the whole thing onto a 28-day calendar, so if you want the schedule first, jump there and come back.</p>
+      <p>Every lesson has a <b>Mark complete</b> button at the bottom. That is what drives the progress shown above, and it is stored against this page, so you can close it and come back on any device.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LESSON ============ -->
+<div id="lesson">
+  <div class="topbar">
+    <div class="topbar-in">
+      <button class="back" id="back-btn">← Roadmap</button>
+      <span class="crumb" id="crumb"></span>
+      <span class="topbar-prog">
+        <span id="tb-label"></span>
+        <span class="track"><span class="fill" id="tb-fill"></span></span>
+      </span>
+    </div>
+  </div>
+  <div class="lesson-grid">
+    <aside class="rail collapsed" id="rail">
+      <button class="sheet-toggle" id="sheet-toggle" aria-expanded="false">
+        <span id="sheet-label">Chapter contents</span><span class="chev">▾</span>
+      </button>
+      <p class="rail-h">Chapter</p>
+      <p class="rail-ch" id="rail-ch"></p>
+      <ol id="rail-list"></ol>
+      <button class="rail-back" id="rail-back">← All chapters</button>
+    </aside>
+    <article id="article"></article>
+  </div>
+</div>
+
+<script src="content.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var COURSE = window.COURSE || [];
+  var FLAT = [];
+  COURSE.forEach(function(ch){
+    ch.lessons.forEach(function(l, i){
+      FLAT.push({ id:l.id, title:l.title, body:l.body, ch:ch, idx:i });
+    });
+  });
+  var TOTAL = FLAT.length;
+  var byId = {};
+  FLAT.forEach(function(l, i){ l.pos = i; byId[l.id] = l; });
+
+  var done = Object.create(null);
+  var last = null;
+  var dbRef = null, wt = null, booted = false;
+
+  /* ---------- persistence ---------- */
+  function readLocal(){
+    try{
+      var raw = localStorage.getItem("course-v1");
+      if (raw){
+        var o = JSON.parse(raw) || {};
+        last = o.last || null;
+        return o.done || {};
+      }
+    }catch(e){}
+    return {};
+  }
+  function writeLocal(){
+    try{ localStorage.setItem("course-v1", JSON.stringify({done:done, last:last})); }catch(e){}
+  }
+  function save(){
+    writeLocal();
+    if (!dbRef) return;
+    if (wt) clearTimeout(wt);
+    wt = setTimeout(function(){
+      wt = null;
+      dbRef.set({ done: Object.assign({}, done), last: last || "" }).catch(function(){});
+    }, 450);
+  }
+
+  /* ---------- helpers ---------- */
+  function chDone(ch){ return ch.lessons.filter(function(l){ return done[l.id]; }).length; }
+  function totalDone(){ var n=0; for (var k in done) if (done[k] && byId[k]) n++; return n; }
+  function firstIncomplete(){
+    for (var i=0;i<FLAT.length;i++) if (!done[FLAT[i].id]) return FLAT[i];
+    return null;
+  }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
+
+  /* ---------- roadmap ---------- */
+  function renderPath(){
+    var html = "";
+    COURSE.forEach(function(ch){
+      var d = chDone(ch), n = ch.lessons.length;
+      var cls = d === n ? "done" : (d > 0 ? "started" : "");
+      var pct = Math.round(d/n*100);
+      html += '<div class="ch ' + cls + '">';
+      html += '<div class="ch-spine"><div class="ch-dot"><span>' + ch.id + '</span></div><div class="ch-line"></div></div>';
+      html += '<button class="ch-card" data-ch="' + ch.id + '">';
+      html += '<span class="ch-title">' + esc(ch.title) + '</span>';
+      html += '<p class="ch-sub">' + ch.sub + '</p>';
+      html += '<div class="ch-foot">';
+      html += '<span class="ch-meta">' + d + '/' + n + ' lessons · ' + ch.mins + ' min</span>';
+      html += '<span class="ch-bar"><i style="width:' + pct + '%"></i></span>';
+      html += '<span class="ch-go">' + (d === 0 ? "Start →" : (d === n ? "Review →" : "Continue →")) + '</span>';
+      html += '</div></button></div>';
+    });
+    document.getElementById("path").innerHTML = html;
+    document.getElementById("path-meta").textContent = COURSE.length + " chapters · work top to bottom";
+  }
+
+  function renderOverall(){
+    var d = totalDone();
+    var pct = Math.round(d/TOTAL*100);
+    document.getElementById("ov-n").textContent = d;
+    document.getElementById("ov-of").textContent = "of " + TOTAL + " lessons complete";
+    document.getElementById("ov-fill").style.width = pct + "%";
+    var note = document.getElementById("ov-note");
+    if (d === 0) note.textContent = "Start with Chapter 1 — it takes twenty minutes.";
+    else if (d === TOTAL) note.textContent = "Course complete. Go do the drills again.";
+    else note.textContent = pct + "% through";
+
+    var nxt = firstIncomplete();
+    var btn = document.getElementById("resume-btn");
+    var lbl = document.getElementById("resume-label");
+    var target = (last && byId[last] && !done[last]) ? byId[last] : nxt;
+    if (!target){
+      btn.textContent = "Review from the start";
+      btn.onclick = function(){ go(FLAT[0].id); };
+      lbl.textContent = "Every lesson is marked complete.";
+    } else {
+      btn.textContent = d === 0 ? "Start Chapter 1" : "Continue";
+      btn.onclick = function(){ go(target.id); };
+      lbl.textContent = d === 0 ? "" : "Chapter " + target.ch.id + " · " + target.title;
+    }
+  }
+
+  /* ---------- lesson ---------- */
+  function renderLesson(id){
+    var L = byId[id];
+    if (!L) { showRoadmap(); return; }
+    last = id; save();
+
+    document.body.classList.add("in-lesson");
+    document.getElementById("crumb").innerHTML =
+      "Ch " + L.ch.id + " · <b>" + esc(L.ch.title) + "</b>";
+
+    var d = totalDone(), pct = Math.round(d/TOTAL*100);
+    document.getElementById("tb-label").textContent = d + "/" + TOTAL;
+    document.getElementById("tb-fill").style.width = pct + "%";
+
+    document.getElementById("rail-ch").textContent = "Ch " + L.ch.id + " — " + L.ch.title;
+    document.getElementById("sheet-label").textContent =
+      "Lesson " + (L.idx + 1) + " of " + L.ch.lessons.length + " · " + L.ch.title;
+
+    var rl = "";
+    L.ch.lessons.forEach(function(x){
+      var cls = (x.id === id ? "on " : "") + (done[x.id] ? "done" : "");
+      rl += '<li class="' + cls + '"><button data-goto="' + x.id + '">' + esc(x.title) + '</button></li>';
+    });
+    document.getElementById("rail-list").innerHTML = rl;
+
+    var prev = FLAT[L.pos - 1], next = FLAT[L.pos + 1];
+    var isDone = !!done[id];
+    var lastInCh = L.idx === L.ch.lessons.length - 1;
+    var chComplete = chDone(L.ch) === L.ch.lessons.length;
+
+    var html = "";
+    html += '<p class="l-kicker">Chapter ' + L.ch.id + ' · Lesson ' + (L.idx + 1) + '</p>';
+    html += '<h2>' + esc(L.title) + '</h2>';
+    html += L.body;
+
+    if (lastInCh && chComplete){
+      var nch = COURSE.filter(function(c){ return c.id === L.ch.id + 1; })[0];
+      html += '<div class="chdone"><h3>Chapter ' + L.ch.id + ' complete</h3>';
+      html += '<p>' + (nch ? "Next up: Chapter " + nch.id + " — " + esc(nch.title) + "." : "That is the whole course. Go back and do the drills again.") + '</p>';
+      html += '<button class="btn" data-goto="' + (nch ? nch.lessons[0].id : FLAT[0].id) + '">' +
+              (nch ? "Start Chapter " + nch.id : "Back to the start") + '</button></div>';
+    }
+
+    html += '<div class="lnav">';
+    html += '<button class="btn ghost" data-goto="' + (prev ? prev.id : "") + '"' + (prev ? "" : " disabled") + '>← Previous</button>';
+    html += '<span class="spacer"></span>';
+    html += '<span class="mark' + (isDone ? " is-done" : "") + '">';
+    if (isDone){
+      html += '<span class="done-note">✓ Complete</span>';
+      html += '<button class="btn ghost" id="unmark">Undo</button>';
+    } else {
+      html += '<button class="btn" id="markbtn">Mark complete' + (next ? " &amp; continue" : "") + '</button>';
+    }
+    html += '</span>';
+    if (next) html += '<button class="btn ghost" data-goto="' + next.id + '">Next →</button>';
+    else html += '<button class="btn ghost" id="back2">Roadmap</button>';
+    html += '</div>';
+
+    var art = document.getElementById("article");
+    art.innerHTML = html;
+
+    var mb = document.getElementById("markbtn");
+    if (mb) mb.onclick = function(){
+      done[id] = true; save();
+      if (next) go(next.id); else renderLesson(id);
+      renderPath(); renderOverall();
+    };
+    var um = document.getElementById("unmark");
+    if (um) um.onclick = function(){
+      delete done[id]; save(); renderLesson(id); renderPath(); renderOverall();
+    };
+    var b2 = document.getElementById("back2");
+    if (b2) b2.onclick = showRoadmap;
+
+    document.getElementById("rail").classList.add("collapsed");
+    var st = document.getElementById("sheet-toggle");
+    st.setAttribute("aria-expanded","false");
+    st.querySelector(".chev").textContent = "▾";
+    window.scrollTo(0,0);
+  }
+
+  /* ---------- routing ---------- */
+  function go(id){
+    if (!id) return;
+    if (location.hash === "#/l/" + id) renderLesson(id);
+    else location.hash = "#/l/" + id;
+  }
+  function showRoadmap(){
+    if (location.hash === "" || location.hash === "#/") route();
+    else location.hash = "#/";
+  }
+  function route(){
+    var h = location.hash || "#/";
+    var m = h.match(/^#\/l\/(.+)$/);
+    if (m && byId[m[1]]) { renderLesson(m[1]); }
+    else {
+      document.body.classList.remove("in-lesson");
+      renderPath(); renderOverall(); window.scrollTo(0,0);
+    }
+  }
+
+  /* ---------- wiring ---------- */
+  document.addEventListener("click", function(ev){
+    if (!ev.target || typeof ev.target.closest !== "function") return;
+    var t = ev.target.closest("[data-goto]");
+    if (t && t.getAttribute("data-goto")) { go(t.getAttribute("data-goto")); return; }
+    var c = ev.target.closest("[data-ch]");
+    if (c){
+      var ch = COURSE.filter(function(x){ return String(x.id) === c.getAttribute("data-ch"); })[0];
+      if (!ch) return;
+      var t2 = ch.lessons.filter(function(l){ return !done[l.id]; })[0] || ch.lessons[0];
+      go(t2.id);
+    }
+  });
+  document.getElementById("back-btn").onclick = showRoadmap;
+  document.getElementById("rail-back").onclick = showRoadmap;
+  document.getElementById("sheet-toggle").onclick = function(){
+    var r = document.getElementById("rail");
+    var open = r.classList.toggle("collapsed") === false;
+    this.setAttribute("aria-expanded", open ? "true" : "false");
+    this.querySelector(".chev").textContent = open ? "▴" : "▾";
+  };
+  window.addEventListener("hashchange", route);
+
+  /* ---------- boot ---------- */
+  done = readLocal();
+  route();
+  booted = true;
+
+  if (window.claude && typeof window.claude.use === "function"){
+    window.claude.use("db").then(function(db){
+      if (!db) return;
+      dbRef = db.doc("progress/course");
+      dbRef.onSnapshot(function(snap){
+        if (!snap.exists) return;
+        var data = snap.data() || {};
+        var inc = data.done;
+        if (inc && typeof inc === "object"){
+          var merged = Object.create(null);
+          Object.keys(inc).forEach(function(k){ if (inc[k]) merged[k] = true; });
+          done = merged;
+        }
+        if (typeof data.last === "string" && data.last) last = data.last;
+        writeLocal();
+        renderPath(); renderOverall();
+        if (document.body.classList.contains("in-lesson")){
+          var m = (location.hash||"").match(/^#\/l\/(.+)$/);
+          if (m && byId[m[1]]) renderLesson(m[1]);
+        }
+      }, function(){});
+    }).catch(function(){});
+  }
+})();
+</script>
+
+</body></html>
